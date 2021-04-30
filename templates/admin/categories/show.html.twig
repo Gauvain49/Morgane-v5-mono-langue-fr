@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MgCategories{% endblock %}
+
+{% block body %}
+    <h1>MgCategories</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mg_category.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ mg_category.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ mg_category.description }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ mg_category.slug }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ mg_category.active ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Force_display</th>
+                <td>{{ mg_category.forceDisplay ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ mg_category.type }}</td>
+            </tr>
+            <tr>
+                <th>Date_creat</th>
+                <td>{{ mg_category.dateCreat ? mg_category.dateCreat|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_up</th>
+                <td>{{ mg_category.dateUp ? mg_category.dateUp|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ mg_category.level }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('mg_categories_index') }}">back to list</a>
+
+    <a href="{{ path('mg_categories_edit', {'id': mg_category.id}) }}">edit</a>
+
+    {{ include('mg_categories/_delete_form.html.twig') }}
+{% endblock %}

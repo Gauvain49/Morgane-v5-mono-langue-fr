@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Ajouter une propriété{% endblock %}
+{% form_theme form _self %}
+
+{% block body %}
+<div class="page-header">
+	<h4 class="page-title">Gestion des propriétés</h4>
+    <ul class="breadcrumbs">
+        <li class="nav-home">
+            <a href="{{ path('dashboard') }}">
+                <i class="flaticon-home"></i>
+            </a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            Catalogue
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('properties_index') }}">
+	            Propriétés
+	        </a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            Ajouter une propriété
+        </li>
+    </ul>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Ajouter une catégorie</h4>
+			</div>
+			<div class="card-body">
+				{{ include('admin/properties/_form.html.twig') }}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit MgTaxes{% endblock %}
+
+{% block body %}
+    <h1>Edit MgTaxes</h1>
+
+    {{ include('admin/taxes/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin/taxes_index') }}">back to list</a>
+
+    {{ include('admin/taxes/_delete_form.html.twig') }}
+{% endblock %}

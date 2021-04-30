@@ -1,0 +1,251 @@
+				<div class="sidebar-wrapper scrollbar-inner">
+					<div class="sidebar-content">
+						<div class="user">
+							<div class="photo">
+								<img src="{{ appService.getGravatar(app.user.email, '40') }}" alt="image profile">
+							</div>
+							<div class="info">
+								<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+									<span>
+										{{ app.user.firstname}} {{ app.user.lastname }}
+										<span class="user-level">{% if is_granted('ROLE_SUPER_ADMIN') %}Super Administrateur{% elseif is_granted('ROLE_ADMIN') %}Administrateur{% elseif is_granted('ROLE_USER') %}Utilisateur{% endif %}</span>
+									</span>
+								</a>
+							</div>
+						</div>
+						<ul class="nav">
+							<li class="nav-item">
+								<a href="{{ path('dashboard') }}">
+									<i class="la la-dashboard"></i>
+									<p>Tableau de bord</p>
+								</a>
+							</li>
+							<li class="nav-section">
+								<span class="sidebar-mini-icon">
+									<i class="la la-ellipsis-h"></i>
+								</span>
+								<h4 class="text-section">Boutique</h4>
+							</li>
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#catalog">
+									<i class="la la-cubes"></i>
+									<p>Catalogue</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse {% if NavCatalogOpen is defined %}show{% endif %}" id="catalog">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="{{ path('products_index') }}">
+												<span class="sub-item">Produits</span>
+											</a>
+										</li>
+										<li>
+											<a href="{{ path('categories_index', {'type': 'product'}) }}">
+												<span class="sub-item">Catégories</span>
+											</a>
+										</li>
+										<li>
+											<a href="{{ path('properties_index') }}">
+												<span class="sub-item">Propriétés</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('authors_index') #}">
+												<span class="sub-item">Auteurs</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('suppliers_index') #}">
+												<span class="sub-item">Fournisseurs</span>
+											</a>
+										</li>
+										<li>
+											<a href="{{ path('taxes_index') }}">
+												<span class="sub-item">Gestion des taxes</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('gammes_index') #}">
+												<span class="sub-item">Gammes</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="nav-section">
+								<span class="sidebar-mini-icon">
+									<i class="la la-ellipsis-h"></i>
+								</span>
+								<h4 class="text-section">E-commerce</h4>
+							</li>
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#clients">
+									<i class="flaticon-users"></i>
+									<p>Clients</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse {% if NavCustomerOpen is defined %}show{% endif %}" id="clients">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="{# path('customers_index') #}">
+												<span class="sub-item">Liste des clients</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('customers_groups_index') #}">
+												<span class="sub-item">Groupe de client</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="nav-item">
+								<a href="{# path('orders_index') #}">
+									<i class="la la-cart-arrow-down"></i>
+									<p>Commandes</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#listCarriers">
+									<i class="la la-truck"></i>
+									<p>Livraison</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse {% if NavCarrierOpen is defined %}show{% endif %}" id="listCarriers">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="{# path('carriers_index') #}">
+												<span class="sub-item">Transporteurs</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('countries_index') #}">
+												<span class="sub-item">Pays livrables</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="nav-item">
+								<a href="{# path('payments_mode') #}">
+									<i class="la la-money"></i>
+									<p>Mode de paiements</p>
+								</a>
+							</li>
+							<li class="nav-section">
+								<span class="sidebar-mini-icon">
+									<i class="flaticon-layers"></i>
+								</span>
+								<h4 class="text-section">Contenus</h4>
+							</li>
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#page">
+									<i class="la la-copy"></i>
+									<p>Pages du site</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse {% if NavContentPageOpen is defined %}show{% endif %}" id="page">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="{# path('posts_index', {'role' : 'page'}) #}">
+												<span class="sub-item">Liste des pages</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('posts_new', {'role' : 'page'}) #}">
+												<span class="sub-item">Ajouter une page</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('pages_position') #}">
+												<span class="sub-item">Gestion du menu</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li class="nav-item">
+								<a href="{# path('medias_index') #}">
+									<i class="la la-photo"></i>
+									<p>Médiathèque</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#posts">
+									<i class="la la-newspaper-o"></i>
+									<p>Articles</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse {% if NavContentPostOpen is defined %}show{% endif %}" id="posts">
+									<ul class="nav nav-collapse">
+										<li>
+											<span>
+												<a href="{# path('posts_index', {'role' : 'post'}) #}">
+													<span class="sub-item">Liste des articles</span>
+												</a>
+											</span>
+										</li>
+										<li>
+											<span>
+												<a href="{# path('posts_new', {'role' : 'post'}) #}">
+													<span class="sub-item">Ajouter un article</span>
+												</a>
+											</span>
+										</li>
+										<li>
+											<span>
+												<a href="{# path('categories_index', {'type': 'post') #}">
+													<span class="sub-item">Catégories d'articles</span>
+												</a>
+											</span>
+										</li>
+									</ul>
+								</div>
+							</li>
+							{#<li class="nav-item">
+								<a href="{{} path('manuscript-index') }}">
+									<i class="la la-leanpub"></i>
+									<p>Manuscrits reçus</p>
+								</a>
+							</li>#}
+							<li class="nav-section">
+								<span class="sidebar-mini-icon">
+									<i class="flaticon-layers"></i>
+								</span>
+								<h4 class="text-section">Configuration</h4>
+							</li>
+							<li class="nav-item">
+								<a href="{{ path('users_index') }}">
+									<i class="la la-users"></i>
+									<p>Utilisateurs</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a data-toggle="collapse" href="#params">
+									<i class="flaticon-settings"></i>
+									<p>Paramètres</p>
+									<span class="caret"></span>
+								</a>
+								<div class="collapse {% if NavParamsOpen is defined %}show{% endif %}" id="params">
+									<ul class="nav nav-collapse">
+										<li>
+											<a href="{# path('parameters_index') #}">
+												<span class="sub-item">Paramètres générales</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('parameters_adresses') #}">
+												<span class="sub-item">Gestion adresses</span>
+											</a>
+										</li>
+										<li>
+											<a href="{# path('parameters_basket_index') #}">
+												<span class="sub-item">Paramètres panier</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>

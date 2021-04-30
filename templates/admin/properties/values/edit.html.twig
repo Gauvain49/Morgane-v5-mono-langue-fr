@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit MgPropertiesValues{% endblock %}
+
+{% block body %}
+    <h1>Edit MgPropertiesValues</h1>
+
+    {{ include('mg_properties_values/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('mg_properties_values_index') }}">back to list</a>
+
+    {{ include('mg_properties_values/_delete_form.html.twig') }}
+{% endblock %}

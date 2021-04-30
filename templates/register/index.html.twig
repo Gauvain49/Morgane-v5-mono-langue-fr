@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form _self %}
+{% block title %}Hello RegisterController!{% endblock %}
+
+{% block body %}
+	<h1>Inscription</h1>
+
+	{{ include('register/_form.html.twig') }}
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<aside>
+	<div class="list-group">
+		<a href="{{ path('products_edit', {'id' : product.id})}}" class="list-group-item {% if app.request.attributes.get('_route') == 'products_edit' %} active {% endif %}">Informations</a>
+		<a href="{{ path('products_images_index', {'id' : product.id}) }}" class="list-group-item {% if app.request.attributes.get('_route') == 'products_images_index' %} active {% endif %}">Images</a>
+		<a href="{{ path('products_discount_index', {'id' : product.id}) }}" class="list-group-item {% if app.request.attributes.get('_route') == 'products_discount_index' %} active {% endif %}">Promotions</a>
+		<a href="{{ path('products_stocks_index', {'id' : product.id}) }}" class="list-group-item {% if app.request.attributes.get('_route') == 'products_stocks_index' %} active {% endif %}">Gestion stocks</a>
+		<a href="{{ path('products_numerical_index', {'id' : product.id}) }}" class="list-group-item {% if app.request.attributes.get('_route') == 'products_numerical_index' %} active {% endif %}">Format numérique</a>
+		<a href="{# path('products_authors', {'id' : product.id})#}" class="list-group-item {% if app.request.attributes.get('_route') == 'products_authors' %} active {% endif %}">Auteurs</a>
+		<a href="{# path('products_carriers_index', {'id' : product.id})#}" class="list-group-item {% if app.request.attributes.get('_route') == 'products_carriers_index' %} active {% endif %}">Livraison</a>
+		<!-- <a href="#" class="list-group-item"><span>Propriétés</span></a> -->
+		<a href="#" class="list-group-item">Packs</a>
+		<!-- <a href="#" class="list-group-item">Fournisseurs</a> -->
+	</div>
+</aside>

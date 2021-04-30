@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+<div class="row">
+	<div class="col-auto">
+		{{ form_row(form.property) }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-6">
+		{{ form_row(form.value) }}
+	</div>
+</div>
+    
+    
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MgPosts{% endblock %}
+
+{% block body %}
+    <h1>MgPosts</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mg_post.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ mg_post.title }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('mg_posts_index') }}">back to list</a>
+
+    <a href="{{ path('mg_posts_edit', {'id': mg_post.id}) }}">edit</a>
+
+    {{ include('mg_posts/_delete_form.html.twig') }}
+{% endblock %}

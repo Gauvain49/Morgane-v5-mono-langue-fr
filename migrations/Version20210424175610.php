@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20210424175610 extends AbstractMigration
+{
+    public function getDescription() : string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE mg_products_properties ADD custom VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE mg_properties_values DROP custom');
+    }
+
+    public function down(Schema $schema) : void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE mg_products_properties DROP custom');
+        $this->addSql('ALTER TABLE mg_properties_values ADD custom TINYINT(1) DEFAULT \'0\' NOT NULL');
+    }
+}

@@ -1,0 +1,65 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Ajouter une catégorie{% endblock %}
+{% form_theme form _self %}
+{% block stylesheets %}
+<style type="text/css">
+	fieldset {
+		padding: 0 !important;
+	}
+</style>
+{% endblock %}
+{% block body %}
+<div class="page-header">
+	<h4 class="page-title">Catégories</h4>
+	<ul class="breadcrumbs">
+		<li class="nav-home">
+			<a href="{{ path('dashboard') }}">
+				<i class="flaticon-home"></i>
+			</a>
+		</li>
+		<li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		</li>
+		<li class="nav-item">
+			{% if (type == 'product') %}
+			<a href="{{ path('products_index') }}">Produits</a>
+			{% else %}
+			<a href="{{ path('posts_index', {'role': 'post'}) }}">Articles</a>
+			{% endif %}
+		</li>
+		<li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		</li>
+		<li class="nav-item">
+			<a href="{{ path('categories_index', {'type': type}) }}">Catégories</a>
+		</li>
+		<li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		</li>
+		<li class="nav-item">
+			Ajouter une catégorie
+		</li>
+	</ul>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Ajouter une catégorie</h4>
+			</div>
+			<div class="card-body">
+				{{ include('admin/categories/_form.html.twig') }}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block _categories_contents_entry_row %}
+		{{ form_widget(form) }}
+{% endblock %}
+
+{% block javascripts %}
+<!-- Bootstrap Toggle -->
+<script src="{{ asset('admin/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js') }}"></script>
+{% endblock %}

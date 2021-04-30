@@ -1,0 +1,70 @@
+{{ form_start(form) }}
+    {# form_widget(form) #}
+	{{ form_row(form.name) }}
+	{{ form_row(form.reference) }}
+	{{ form_row(form.summary) }}
+	{{ form_row(form.description) }}
+	<div class="row">
+		<div class="col-3">
+			{{ form_row(form.purshasing_price) }}
+		</div>
+		<div class="col-3">
+			{{ form_row(form.selling_price) }}
+		</div>
+		<div class="col-3">
+			{{ form_row(form.taxe) }}
+		</div>
+		<div class="col-3">
+			{{ form_row(form.selling_price_all_taxes) }}
+		</div>
+	</div>
+    <hr>
+    <div class="row">
+    	<div class="col-4 border-right">
+    		{{ form_row(form.categories) }}
+    	</div>
+    	<div class="col-8">
+    		<div class="row">
+    			<div class="col-6">
+    				{{ form_row(form.date_publish) }}
+    			</div>
+    			<div class="col-6">
+    				{{ form_row(form.date_available) }}
+    			</div>
+    		</div>
+    		{{ form_row(form.pre_order) }}
+    		<div class="row">
+    			<div class="col-4">
+    				{{ form_row(form.sales_unit) }}
+    			</div>
+    			<div class="col-4">
+    				{{ form_row(form.min_quantity) }}
+    			</div>
+    			<div class="col-4">
+    				{{ form_row(form.max_quantity) }}
+    			</div>
+    		</div>
+			{{ form_row(form.offline) }}
+			{{ form_row(form.stock_management) }}
+			{# form_row(form.gamme) #}
+			{{ form_row(form.supplier) }}
+    	</div>
+    </div>
+    <hr>
+    <div id="products_productsProperties"
+        data-prototype="{{ form_widget(form.productsProperties.vars.prototype)|e }}"
+        data-widget-tags="{{ '<div></div>'|e }}"
+        data-widget-counter="{{ form.productsProperties|length }}">
+        {% for propertiesField in form.productsProperties %}
+            {{ form_errors(propertiesField) }}
+            {{ form_widget(propertiesField) }}
+        {% endfor %}
+    </div>
+    <div class="col-12 text-center mb-3">
+        <button type="button" id="add-property" class="btn btn-info add-property" data-list-selector="#products_productsProperties">Ajouter une propriété</button>
+    </div>
+    
+
+    {# form_row(form.properties) #}
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

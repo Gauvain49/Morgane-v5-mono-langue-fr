@@ -1,0 +1,178 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+<div class="page-header">
+    <h4 class="page-title">Produits</h4>
+    <ul class="breadcrumbs">
+        <li class="nav-home">
+            <a href="{{ path('dashboard') }}">
+                <i class="flaticon-home"></i>
+            </a>
+        </li>
+        <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+            Produits
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-head-row">
+                    <h4 class="card-title">Produits</h4>
+                    <div class="card-tools">
+                        <a href="{{ path('products_new') }}" class="btn btn-info font-weight-bold"><span class="btn-label"><i class="flaticon-plus"></i></span> Ajouter un produit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table data-order='[[ 0, "desc" ]]' id="basic-datatables" class="display table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nom</th>
+                                <th>Référence</th>
+                                <th>Catégorie</th>
+                                <th class="text-center">Prix de vente HT</th>
+                                <th class="text-center">Prix de vente TTC</th>
+                                <th class="text-center">Quantité</th>
+                                <th class="text-center">Affichage</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nom</th>
+                                <th>Référence</th>
+                                <th>Catégorie</th>
+                                <th class="text-center">Prix de vente HT</th>
+                                <th class="text-center">Prix de vente TTC</th>
+                                <th class="text-center">Quantité</th>
+                                <th class="text-center">Affichage</th>
+                                <th>actions</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.id }}</td>
+                                <td>
+                                    {# for image in product.images %}
+                                        {% if image.cover == 1 %}
+                                        <figure class="figure mr-3" style="width: 90px">
+                                            <img src="{{ asset('img/p/') ~ image.id|pathProduct ~ image.id }}_smallsquare{{ image.mimeType|mimeType }}" alt="" class="img-fluid img-thumbnail">
+                                        </figure>
+                                        {% endif %}
+                                    {% else %}
+                                        <figure class="figure mr-3" style="width: 90px">
+                                            <img src="{{ asset('assets/img/p/fr.jpg') }}" alt="" class="img-fluid img-thumbnail">
+                                        </figure>
+                                    {% endfor #}
+                                    {{ product.name }}
+                                </td>
+                                <td>{{ product.reference }}</td>
+                                <td>
+                                {% for categorie in product.categories  %}
+                                    <span class="badge badge-count">{{ categorie.name }}</span>
+                                {% endfor %}
+                                </td>
+                                <td class="text-right">{{ product.sellingPrice|number_format(2, ',', ' ') }}&nbsp;€</td>
+                                <td class="text-right">{{ product.sellingPriceAllTaxes|number_format(2, ',', ' ') }}&nbsp;€</td>
+                                {#<td>{{ product.discountOnTaxe ? 'Yes' : 'No' }}</td>#}
+                                <td class="text-center">{{ product.stockManagement ? product.quantity : '<i class="la la-close" style="color: #CF0000; font-weight: bold; font-size: 15px;"></i>' }}</td>
+                                {#<td>{{ product.sellOutOfStock ? 'Yes' : 'No' }}</td>#}
+                                {#<td>{{ product.dateAvailable ? product.dateAvailable|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ product.datePublish ? product.datePublish|date('Y-m-d H:i:s') : '' }}</td>#}
+                                <td class="text-center">{{ product.offline ? '<i class="la la-close" style="color: #CF0000; font-weight: bold; font-size: 15px;"></i>' : '<i class="la la-check" style="color: #009A07; font-weight: bold; font-size: 15px;"></i>' }}</td>
+                                {#<td>{{ product.dateCreat ? product.dateCreat|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ product.dateUp ? product.dateUp|date('Y-m-d H:i:s') : '' }}</td>#}
+                                <td class="text-center">
+                                    <div class="d-inline-flex">
+                                        <div class="p-1">
+                                            <a href="{{ path('products_edit', {'id': product.id}) }}" class="btn btn-primary" title="Éditer"><i class="btn-label fas fa-pen" style="font-size: 16px;"></i></a>
+                                        </div>
+                                        <div class="p-1">{{ include('admin/products/_delete_form.html.twig') }}</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="33">Aucun produit trouvé</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{{ asset('admin/js/plugin/datatables/datatables.min.js') }}"></script>
+<script>
+    function onClickBtnDisplay(event){
+        event.preventDefault();
+
+        const url = this.href;
+        const icone = this.querySelector('i');
+        const iconeClass = icone.className;
+
+        axios.get(url).then(function(response) {
+            if(icone.classList.contains('la-close')) {
+                icone.classList.replace('la-close', 'la-check');
+                icone.style.color = '#009A07';
+            } else {
+                icone.classList.replace('la-check', 'la-close');
+                icone.style.color = '#CF0000';
+            }
+        }).catch(function(error) {
+            if(error.response.status === 403) {
+                window.alert("Une erreur s'est produite !")
+            }
+        });
+    }
+    document.querySelectorAll('a.jsDisplay').forEach(function(link){
+        link.addEventListener('click', onClickBtnDisplay);
+    });
+    $('#basic-datatables').DataTable( {
+        "language": {
+            "sProcessing":     "Traitement en cours...",
+            "sSearch":         "Rechercher&nbsp;:",
+            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix":    "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst":      "Premier",
+                "sPrevious":   "Pr&eacute;c&eacute;dent",
+                "sNext":       "Suivant",
+                "sLast":       "Dernier"
+            },
+            "oAria": {
+                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                    "rows": {
+                        _: "%d lignes séléctionnées",
+                        0: "Aucune ligne séléctionnée",
+                        1: "1 ligne séléctionnée"
+                    } 
+            }
+        }
+    } );
+</script>
+{% endblock %}

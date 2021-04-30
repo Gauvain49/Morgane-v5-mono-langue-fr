@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+	{# <div class="form-check form-check-inline"> #}
+		{{ form_row(form.gender) }}
+	{# </div> #}
+	{{ form_row(form.firstname) }}
+	{{ form_row(form.lastname) }}
+	{{ form_row(form.username) }}
+	{{ form_row(form.password) }}
+	{# form_row(form.customers) #}
+	<div class="form-check text-muted mb-4">
+		<label class="form-check-label">
+			<input type="checkbox" name="sameAddress" id="sameAddress">
+			<span class="form-check-sign">Mon adresse de livraison est différente.</span>
+		</label>
+	</div>
+<button class="btn btn-primary">{{ button_label|default('S\'inscrire') }}</button>
+{{ form_end(form) }}
