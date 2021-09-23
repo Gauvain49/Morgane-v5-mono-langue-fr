@@ -244,6 +244,11 @@ class MgProducts
      */
     private $productsProperties;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=MgManufacturers::class, inversedBy="products")
+     */
+    private $manufacturer;
+
     public function __construct()
     {
         $this->date_creat = new \Datetime();
@@ -865,6 +870,18 @@ class MgProducts
                 $productsProperty->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getManufacturer(): ?MgManufacturers
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturer(?MgManufacturers $manufacturer): self
+    {
+        $this->manufacturer = $manufacturer;
 
         return $this;
     }

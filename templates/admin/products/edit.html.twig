@@ -92,19 +92,19 @@
 		</div></div>
 {% endblock %}
 {# Mise en forme du formulaire de propriété #}
-{% block _products_propertiesValues_widget %}
+{% block _products_properties_widget %}
 	{{ form_widget(form) }}
-	<input type="hidden" id="widgets-counter" value="0">
+	{# <input type="hidden" id="widgets-counter" value="0">
 	<div class="form-group text-center">
 		<button type="button" id="add-property" class="btn btn-info">Ajouter une propriété</button>
-	</div>
+	</div> #}
 {% endblock %}
-{% block _products_propertiesValues_entry_row %}
+{% block _products_productsProperties_entry_row %}
 	{{ form_widget(form) }}
 {% endblock %}
-{% block _products_propertiesValues_entry_widget %}
+{% block _products_productsProperties_entry_widget %}
 	{# <div class="form-group" id="{{id}}" data-lang=""> #}
-	<div class="form-group" id="block_{{id}}" data-lang="">
+	<div class="form-group" id="block_{{id}}">
 		<div class="row">
 			<div class="col-10 align-items-end" id="block_inputs">
 				<div class="row align-items-end">
@@ -113,13 +113,16 @@
 						{{ form_widget(form.property) }}
 					</div>
 					<div class="col">
-						{{ form_widget(form.value) }}
-						{{ form_errors(form.value) }}
+						{{ form_label(form.property_value) }}
+						{{ form_widget(form.property_value) }}
+					</div>
+					<div class="col">
+						{{ form_label(form.custom) }}
+						{{ form_widget(form.custom) }}
 					</div>
 				</div>
 			</div>
-			<div class="col-2 row align-items-end">
-				{# <button type="button" id="delete_{{id}}" data-action="delete" data-target="#{{id}}" class="btn btn-danger">X</button> #}
+			<div class="col-1 row align-items-end">
 				<button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">X</button>
 			</div>
 		</div>
@@ -198,6 +201,143 @@
 			//format: 'DD/MM/YYYY',
 			locale: 'fr'
 		});
+	</script>
+	<script>
+		/*for (var a = 0; a < {{ properties|length}}; a++) {
+		    //Ensuite
+		    var selectProperty = document.getElementById('products_productsProperties_' + a + '_property');
+		    var selectPropertyIndex = selectProperty.selectedIndex;
+		    console.log(selectPropertyIndex);
+		    var truc = selectProperty.options[selectPropertyIndex].value;
+		    console.log(truc);
+		    var selectValeurPredefinie = document.getElementById('products_productsProperties_' + a + '_property_value').options;
+		    //var truc = selectValeurPredefinie.options;
+		    for (var i = 0; i < selectValeurPredefinie.length; i++) {
+		    	if (selectValeurPredefinie[i].value != '') {
+		    		if (selectValeurPredefinie[i].dataset.role != truc) {
+		    			selectValeurPredefinie[i].hidden = true;
+		    		}
+		    	}
+		    }
+		    selectProperty.addEventListener('change', function() {
+		    	var choixProperty = this.selectedIndex;
+		    	choixPropertyValue = this[choixProperty].value;
+			    for (var i = 0; i < selectValeurPredefinie.length; i++) {
+			    	if (selectValeurPredefinie[i].value == '') {
+			    		selectValeurPredefinie[i].selected = "selected";
+			    	}
+			    	
+			    	if (selectValeurPredefinie[i].value != '') {
+			    		if (selectValeurPredefinie[i].dataset.role == choixPropertyValue) {
+			    			selectValeurPredefinie[i].hidden = false;
+			    		} else {
+			    			selectValeurPredefinie[i].hidden = true;
+			    		}
+			    	}
+			    }
+		    });
+
+		}*/
+		for (var a = 0; a < {{ properties|length}}; a++) {
+			var selectProperty = document.getElementById('products_productsProperties_' + a + '_property');
+			//console.log(selectProperty);
+		    var selectPropertyIndex = selectProperty.selectedIndex;
+		    var truc = selectProperty.options[selectPropertyIndex].value;
+		    var selectValeurPredefinie = document.getElementById('products_productsProperties_' + a + '_property_value').options;
+		    for (var j = 0; j < selectValeurPredefinie.length; j++) {
+		    	if (selectValeurPredefinie[j].value != '') {
+		    		if (selectValeurPredefinie[j].dataset.role != truc) {
+		    			selectValeurPredefinie[j].hidden = true;
+		    		}
+		    	}
+		    }
+			selectProperty.addEventListener('change', function() {
+				var idValue = this.id + '_value';
+				var choixProperty = this.selectedIndex;
+				choixPropertyValue = this[choixProperty].value;
+				var selectNewValeurPredefinie = document.getElementById(idValue);
+				//console.log(selectNewValeurPredefinie);
+			    for (var k = 0; k < selectNewValeurPredefinie.length; k++) {
+			        if (selectNewValeurPredefinie[k].value == '') {
+			        	selectNewValeurPredefinie[k].selected = "selected";
+			        }
+			        
+			        if (selectNewValeurPredefinie[k].value != '') {
+			        	if (selectNewValeurPredefinie[k].dataset.role == choixPropertyValue) {
+			        		selectNewValeurPredefinie[k].hidden = false;
+			        	} else {
+			        		selectNewValeurPredefinie[k].hidden = true;
+			        	}
+			        }
+			    }
+			});
+		}
+		jQuery(document).ready(function () {
+			const select1 = [];
+		    jQuery('.add-property').click(function (e) {
+		        var list = jQuery(jQuery(this).attr('data-list-selector'));
+		        // Try to find the counter of the list or use the length of the list
+		        var counter = list.data('widget-counter') || list.children().length;
+
+		        // grab the prototype template
+		        var newWidget = list.attr('data-prototype');
+		        // replace the "__name__" used in the id and name of the prototype
+		        // with a number that's unique to your emails
+		        // end name attribute looks like name="contact[emails][2]"
+		        newWidget = newWidget.replace(/__name__/g, counter);
+		        // Increase the counter
+		        counter++;
+		        // And store it, the length cannot be used if deleting widgets is allowed
+		        list.data('widget-counter', counter);
+
+		        // create a new list element and add it to the list
+		        var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+		        newElem.appendTo(list);
+		        select1.push(counter - 1);
+		        console.log(select1);
+
+		        //Ensuite
+		        var selectProperty = document.getElementById('products_productsProperties_' + (counter - 1) + '_property');
+		        var selectPropertyIndex = selectProperty[0].value;
+		        var selectValeurPredefinie = document.getElementById('products_productsProperties_' + (counter - 1) + '_property_value').options;
+		        for (var i = 0; i < selectValeurPredefinie.length; i++) {
+		        	if (selectValeurPredefinie[i].value != '') {
+		        		if (selectValeurPredefinie[i].dataset.role != selectPropertyIndex) {
+		        			selectValeurPredefinie[i].hidden = true;
+		        		}
+		        	}
+		        }
+		        selectProperty.addEventListener('change', function() {
+		        	var choixProperty = this.selectedIndex;
+		        	choixPropertyValue = this[choixProperty].value;
+			        for (var i = 0; i < selectValeurPredefinie.length; i++) {
+			        	if (selectValeurPredefinie[i].value == '') {
+			        		selectValeurPredefinie[i].selected = "selected";
+			        	}
+			        	
+			        	if (selectValeurPredefinie[i].value != '') {
+			        		if (selectValeurPredefinie[i].dataset.role == choixPropertyValue) {
+			        			selectValeurPredefinie[i].hidden = false;
+			        		} else {
+			        			selectValeurPredefinie[i].hidden = true;
+			        		}
+			        	}
+			        }
+		        });
+		        handleDeleteButtons();
+		    });
+		});
+		function handleDeleteButtons() {
+			$('button[data-action="delete"]').click(function(){
+				const target = this.dataset.target;
+				//console.log(target);
+				var div = target.replace("#", "");
+				//console.log(div);
+				var deleteDiv = document.getElementById(div).remove();
+				//console.log(deleteDiv);
+			});
+		}
+		handleDeleteButtons();
 	</script>
 	{% if properties|length == 0 %}
 	<script>

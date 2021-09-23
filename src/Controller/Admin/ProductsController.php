@@ -104,17 +104,40 @@ class ProductsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-                foreach ($product->getProductsProperties() as $property) {
-                    if (!is_null($value->getCustom()) && ($value->getPropertyValue())) {
+            $task = $form->getData();
+            if (($task->getMinQuantity() < $task->getSalesUnit()) && ($task->getMinQuantity() > 0)) {
+                $form->get('min_quantity')->addError(new FormError("Ne peut etre inférieure à unité de vente'"));
+
+                $this->addFlash(
+                    'danger', 'Le produit contient des erreurs.'
+                );
+            } elseif(($task->getMaxQuantity() < $task->getSalesUnit()) && ($task->getMaxQuantity() > 0)) {
+                $form->get('max_quantity')->addError(new FormError("Ne peut etre inférieure à unité de vente'"));
+
+                $this->addFlash(
+                    'danger', 'Le produit contient des erreurs.'
+                );
+            } else {
+                $entityManager = $this->getDoctrine()->getManager();
+                //Si l'unité de vente est rempli mais pas le minimum commande, ce dernier prend la valeur de l'unité de vente
+                if (!empty($task->getSalesUnit()) && empty($task->getMinQuantity())) {
+                    $product->setMinQuantity($task->getSalesUnit());
+                }
+                foreach ($product->getProductsProperties() as $k => $property) {
+                    if (is_null($property->getCustom()) && is_null($property->getPropertyValue())) {
+                        //$property = null;
+                        unset($product->getProductsProperties()[$k]);
+                    } else {
                         $property->setProduct($product);
                         $entityManager->persist($property);
                     }
                 }
+                $entityManager->flush();
 
-            $this->addFlash(
-                'success', 'Modification réussie !'
-            );
+                $this->addFlash(
+                    'success', 'Modification réussie !'
+                );
+            }
 
             return $this->redirectToRoute('products_edit', ['id' => $product->getId()]);
         }
