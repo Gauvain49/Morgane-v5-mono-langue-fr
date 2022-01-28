@@ -48,6 +48,11 @@ class MgMovementsStocks
      */
     private $warning;
 
+    public function __construct()
+    {
+        $this->date_movement = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

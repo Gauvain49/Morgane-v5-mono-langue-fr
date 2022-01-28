@@ -14,6 +14,7 @@ class TreeStructure {
 				$key = $addSpace . ' ' . $noeud['nom'];
 				$html[][$key] = $noeud['id'];
 				$html[] = $this->treeStructure($noeud['id'], ($niveau + 1), $array, $space);
+				$addSpace = '';
 			}
 		}
 		$array = [];

@@ -29,7 +29,7 @@ class ProductsStocksType extends AbstractType
                     'data-on' => 'Oui',
                     'data-off' => 'Non'
                 ],
-                //'required' => false
+                'required' => false
             ])
             ->add('stock_alert', IntegerType::class, [
                 'label' => 'Seuil d\'alerte',

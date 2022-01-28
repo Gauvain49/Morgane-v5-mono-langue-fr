@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MgUsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -92,10 +94,16 @@ class MgUsers implements UserInterface
      */
     private $customer_notes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MgPosts::class, mappedBy="author")
+     */
+    private $posts;
+
     public function __construct()
     {
         $this->date_creat = new \Datetime();
         $this->active = true;
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -295,6 +303,36 @@ class MgUsers implements UserInterface
     public function setCustomerNotes(?string $customer_notes): self
     {
         $this->customer_notes = $customer_notes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MgPosts[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(MgPosts $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(MgPosts $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getAuthor() === $this) {
+                $post->setAuthor(null);
+            }
+        }
 
         return $this;
     }

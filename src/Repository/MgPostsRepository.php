@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\MgPosts;
+use App\Services\TreeStructure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,9 +15,44 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MgPostsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, TreeStructure $tree)
     {
         parent::__construct($registry, MgPosts::class);
+        $this->tree = $tree;
+    }
+
+    /**
+     * Affichage des pages par arborescence
+     */
+    public function findAllByArborescence()
+    {
+        $array = [];
+        $pages = $this->findBy(['type' => 'page', 'status' => 'publish'], ['sort' => 'ASC']);
+        foreach ($pages as $page) {
+            $parent = !is_null($page->getParent()) ? $this->find($page->getParent())->getId() : 0;
+            $array[] = [
+                'parent' => $parent,
+                'id' => $page->getId(),
+                'nom' => $page->getTitle()
+            ];
+        }
+        $result = $this->tree->treeStructure(0, 0, $array, '—');
+        $arborescence = [];
+        foreach ($result as $key => $value) {
+            $arborescence[$key] = $this->find($value);
+        }
+        return $arborescence;
+    }
+
+    /**
+     * Attribution automatique d'une position
+     */
+    public function setPosition($parent)
+    {
+        //On récupère la dernière position en appelant les pages du même parent
+        $lastPosition = $this->findOneBy(['type' => 'page', 'parent' => $parent], ['sort' => 'DESC']);
+        $position = !empty($lastPosition) ? $lastPosition->getsort() + 1 : 1;
+        return $position;
     }
 
     // /**

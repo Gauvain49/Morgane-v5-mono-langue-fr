@@ -6,8 +6,8 @@ use App\Entity\MgCategories;
 use App\Entity\MgCategoryLang;
 use App\Entity\MgDepartmentsFrench;
 use App\Entity\MgGenders;
-use App\Entity\MgLanguages;
 use App\Entity\MgOrdersStatusLang;
+use App\Entity\MgParameterBasket;
 use App\Entity\MgParameters;
 use App\Entity\MgRegionsFrench;
 use App\Entity\MgTaxes;
@@ -50,45 +50,21 @@ class AppFixtures extends Fixture
             ->setEmailContact('contact@email.com')
             ->setNbPosts(6);
             $manager->persist($params);
-        // Les langues utilisées
-        $lang = new MgLanguages;
-        $lang->setLangName('Français')
-        	->setLangIsocode('fr')
-        	->setLangCode('fr-fr')
-        	->setLangDefault(true)
-        	->setLangActive(true)
-        	->setLangImg('fr.jpg');
-        $manager->persist($lang);
-        $lang = new MgLanguages;
-        $lang->setLangName('English')
-        	->setLangIsocode('en')
-        	->setLangCode('en-US')
-        	->setLangDefault(false)
-        	->setLangActive(true)
-        	->setLangImg('en.jpg');
-        $manager->persist($lang);
-        $manager->flush();
-
+        $params = new MgParameters;
+        // Les paramètres de boutique
+        $param_basket = new MgParameterBasket;
+        $param_basket->setQtyMinCart(1)
+            ->setAmountMinCart(1)
+            ->setMajorityRequired(0);
+            $manager->persist($param_basket);
         //Les genres/civilités
         $gender = new MgGenders;
-        $gender->setLang($this->language->find(1))
-        	->setShortGender('M.')
+        $gender->setShortGender('M.')
         	->setNameGender('Monsieur');
         $manager->persist($gender);
         $gender = new MgGenders;
-        $gender->setLang($this->language->find(1))
-        	->setShortGender('Mme.')
+        $gender->setShortGender('Mme.')
         	->setNameGender('Madame');
-        $manager->persist($gender);
-        $gender = new MgGenders;
-        $gender->setLang($this->language->find(2))
-        	->setShortGender('Mr.')
-        	->setNameGender('Mister');
-        $manager->persist($gender);
-        $gender = new MgGenders;
-        $gender->setLang($this->language->find(2))
-        	->setShortGender('Ms.')
-        	->setNameGender('Missis');
         $manager->persist($gender);
         $manager->flush();
 
@@ -102,80 +78,48 @@ class AppFixtures extends Fixture
     		->setLastname('Moreau')
     		->setFirstname('Grégory')
     		->setEmail('contact@percevalcreation.fr')
-    		->setDateAdd(new \DateTime())
+    		->setDateCreat(new \DateTime())
     		->setActive(true);
         $manager->persist($user);
-
         $manager->flush();
 
         //Insertion des taxes
         $taxes = new MgTaxes();
-        $taxes->setTaxeRate(0.00)
+        $taxes->setTaxeName('Aucune Taxe')
+                ->setTaxeRate(0.00)
             ->setTaxeActive(true);
         $manager->persist($taxes);
         $taxes = new MgTaxes();
-        $taxes->setTaxeRate(10.00)
+        $taxes->setTaxeName('TVA FR 10%')
+            ->setTaxeRate(10.00)
             ->setTaxeActive(true);
         $manager->persist($taxes);
         $taxes = new MgTaxes();
-        $taxes->setTaxeRate(20.00)
+        $taxes->setTaxeName('TVA FR 20%')
+            ->setTaxeRate(20.00)
             ->setTaxeActive(true);
         $manager->persist($taxes);
         $taxes = new MgTaxes();
-        $taxes->setTaxeRate(5.50)
+        $taxes->setTaxeName('TVA FR 5,5%')
+            ->setTaxeRate(5.50)
             ->setTaxeActive(true);
         $manager->persist($taxes);
-        $manager->flush();
-
-        //Insertion des langues pour les taxes
-        $taxeLang = new MgTaxesLang();
-        $taxeLang->setTaxe($this->taxe->find(1))
-            ->setLang($this->language->find(1))
-            ->setTaxeName('Aucune Taxe');
-        $manager->persist($taxeLang);
-        $taxeLang = new MgTaxesLang();
-        $taxeLang->setTaxe($this->taxe->find(2))
-            ->setLang($this->language->find(1))
-            ->setTaxeName('TVA FR 10%');
-        $manager->persist($taxeLang);
-        $taxeLang = new MgTaxesLang();
-        $taxeLang->setTaxe($this->taxe->find(3))
-            ->setLang($this->language->find(1))
-            ->setTaxeName('TVA FR 20%');
-        $manager->persist($taxeLang);
-        $taxeLang = new MgTaxesLang();
-        $taxeLang->setTaxe($this->taxe->find(4))
-            ->setLang($this->language->find(1))
-            ->setTaxeName('TVA FR 5,5%');
-        $manager->persist($taxeLang);
         $manager->flush();
 
         //Insertion des catégories
         $category = new MgCategories();
-        $category->setPosition(1)
+        $category->setName('racine')
+            ->setSlug('root')
             ->setActive(true)
-            ->setForceDisplay(false)
+            ->setForceDisplay(true)
             ->setType('root')
-            ->setLevel(0);
+            ->setLevel(0)
+            ->setPosition(1);
         $manager->persist($category);
         $manager->flush();
 
-        //Insertion de la categorie racine
-        $categoryLang = new MgCategoryLang();
-        $categoryLang->setCat($this->categories->find(1))
-            ->setLang($this->language->find(1))
-            ->setName('racine')
-            ->setSlug('root');
-        $manager->persist($categoryLang);
-        $categoryLang = new MgCategoryLang();
-        $categoryLang->setCat($this->categories->find(1))
-            ->setLang($this->language->find(2))
-            ->setName('root')
-            ->setSlug('root');
-        $manager->persist($categoryLang);
-
         //Insertion des statuts de paiement des commandes
-        $orderStatutPayment = new MgOrdersStatusLang();
+        /*$orderStatutPayment = new MgOrdersStatusLang();
         $orderStatutPayment->setLang($this->language->find(1))
             ->setName('En attente du paiement par chèque');
         $manager->persist($orderStatutPayment);
@@ -231,7 +175,7 @@ class AppFixtures extends Fixture
         $orderStatutPayment->setLang($this->language->find(1))
             ->setName('En attente de paiement');
         $manager->persist($orderStatutPayment);
-        $manager->flush();
+        $manager->flush();*/
 
         //Insertion des régions françaises
         $regions = new MgRegionsFrench();

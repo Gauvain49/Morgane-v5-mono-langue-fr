@@ -147,7 +147,7 @@
 								<div class="collapse {% if NavContentPageOpen is defined %}show{% endif %}" id="page">
 									<ul class="nav nav-collapse">
 										<li>
-											<a href="{# path('posts_index', {'role' : 'page'}) #}">
+											<a href="{{ path('posts_index', {'role' : 'page'}) }}">
 												<span class="sub-item">Liste des pages</span>
 											</a>
 										</li>
@@ -229,17 +229,17 @@
 								<div class="collapse {% if NavParamsOpen is defined %}show{% endif %}" id="params">
 									<ul class="nav nav-collapse">
 										<li>
-											<a href="{# path('parameters_index') #}">
+											<a href="{{ path('parameters_index') }}">
 												<span class="sub-item">Paramètres générales</span>
 											</a>
 										</li>
 										<li>
-											<a href="{# path('parameters_adresses') #}">
+											<a href="{{ path('parameters_adresses') }}">
 												<span class="sub-item">Gestion adresses</span>
 											</a>
 										</li>
 										<li>
-											<a href="{# path('parameters_basket_index') #}">
+											<a href="{{ path('parameters_basket_index') }}">
 												<span class="sub-item">Paramètres panier</span>
 											</a>
 										</li>

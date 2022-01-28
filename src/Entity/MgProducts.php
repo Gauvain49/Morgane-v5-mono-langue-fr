@@ -455,11 +455,6 @@ class MgProducts
 
     public function setDiscount(?float $discount): self
     {
-        if (!in_array($discount_type, $this->discountTypeValues)) {
-            throw new \InvalidArgumentException(
-                sprintf('Valeur invalide pour mg_products.discount_type : %s.', $discount_type)
-            );
-        }
         $this->discount = $discount;
 
         return $this;
@@ -472,6 +467,11 @@ class MgProducts
 
     public function setDiscountType(?string $discount_type): self
     {
+        if (!in_array($discount_type, $this->discountTypeValues)) {
+            throw new \InvalidArgumentException(
+                sprintf('Valeur invalide pour mg_products.discount_type : %s.', $discount_type)
+            );
+        }
         $this->discount_type = $discount_type;
 
         return $this;

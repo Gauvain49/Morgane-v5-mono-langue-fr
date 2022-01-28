@@ -99,6 +99,18 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
+    "friendsofsymfony/ckeditor-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "f5ad42002183a6881962683e6d84bbb25cdfce5d"
+        },
+        "files": [
+            "./config/packages/fos_ckeditor.yaml"
+        ]
+    },
     "gedmo/doctrine-extensions": {
         "version": "v3.0.3"
     },
@@ -110,6 +122,15 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
+    },
+    "mikehaertl/php-pdftk": {
+        "version": "0.10.4"
+    },
+    "mikehaertl/php-shellcommand": {
+        "version": "1.6.4"
+    },
+    "mikehaertl/php-tmpfile": {
+        "version": "1.2.1"
     },
     "monolog/monolog": {
         "version": "2.2.0"

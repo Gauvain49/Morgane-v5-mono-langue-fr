@@ -1,0 +1,75 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Paramètres générales{% endblock %}
+
+{% block body %}
+<div class="page-header">
+	<h4 class="page-title">Paramètres générales</h4>
+	<ul class="breadcrumbs">
+		<li class="nav-home">
+			<a href="{{ path('dashboard') }}">
+				<i class="flaticon-home"></i>
+			</a>
+		</li>
+		<li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		</li>
+		<li class="nav-item">
+			<a href="{{ path('parameters_index') }}">Paramètres</a>
+		</li>
+		<li class="separator">
+			<i class="flaticon-right-arrow"></i>
+		</li>
+		<li class="nav-item">
+			Adresses
+		</li>
+	</ul>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-head-row">
+					<h4 class="card-title">Adresses</h4>
+					<div class="card-tools">
+										<a href="{{ path('parameters_address_new') }}" class="btn btn-info font-weight-bold"><span class="btn-label"><i class="flaticon-plus"></i></span> Ajouter une adresse</a>
+									</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="display table table-striped table-hover">
+						<tr>
+							<th>Intitulé de l'adresse</th>
+							<th>Adresse</th>
+							<th></th>
+							<th>Action</th>
+						</tr>
+						{% for address in addresses %}
+						<tr>
+							<td>
+								{{address.addressTitle}}
+							</td>
+							<td>{{ address.address|raw }}<br>{{ address.zipcode }} {{ address.town }}</td>
+							<td></td>
+							<td class="text-center">
+								<div class="d-inline-flex">
+									<div class="p-1">
+										<a href="{{ path('parameters_address_edit', {'id': address.id}) }}" class="btn btn-primary"><span class="btn-label"><i class="btn-label fas fa-pen"></i></span></a>
+									</div>
+									<div class="p-1">{{ include('admin/parameters/addresses/_delete_form.html.twig') }}</div>
+								</div>
+							</td>
+						</tr>
+						{% else %}
+							<tr>
+								<td colspan="4">Aucune adresse enregistrée.</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

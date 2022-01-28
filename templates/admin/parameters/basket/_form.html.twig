@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-auto">{{ form_row(form.qty_min_cart) }}</div>
+    <div class="col-auto">{{ form_row(form.amount_min_cart) }}</div>
+</div>
+    {{ form_row(form.majority_required) }}
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

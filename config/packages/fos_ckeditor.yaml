@@ -1,0 +1,24 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+fos_ck_editor:
+    configs:
+      main_config:
+        extraPlugins: "slideshow, wpmore"
+        filebrowserBrowseRoute: "medias_editorUpload"
+        toolbar:
+          - { name: "styles", items: ['Cut', 'Copy','Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo', '-', 'Find', 'Replace', 'Scayt', '-', 'Link', 'Unlink', 'Anchor', '-', 'Image', 'Slideshow', 'Youtube', 'oembed', 'Html5audio', 'Table', 'HorizontalRule', 'Emoticons', 'SpecialChar', '-', 'Maximize', 'WPMore', '-', 'Bold', 'Italic', 'Strike', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', '-', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv', '-', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', '-', 'Styles', 'Format','Font','FontSize', '-', 'TextColor', 'BGColor', 'Source'] }
+    toolbars:
+      configs:
+        my_toolbar_1: [ [ 'Source', '-', 'Cut', 'Copy','Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo', '-', 'Find', 'Replace', 'Scayt', '-', 'Link', 'Unlink', 'Anchor', '-', 'Image', 'Slideshow', 'Youtube', 'oembed', 'Html5audio', 'Table', 'HorizontalRule', 'Emoticons', 'SpecialChar', '-', 'Maximize', 'WPMore' ], "/", [ 'Bold', 'Italic', 'Strike', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', '-', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv', '-', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', '-', 'Styles', 'Format','Font','FontSize', '-', 'TextColor', 'BGColor' ] ]
+        toolbar_illustration: [ [ 'Image' ] ]
+    
+    plugins:
+      Slideshow:
+        path:     "/public/bundles/fosckeditor/plugins/slideshow/"
+        filename: "plugin.js"
+      Wpmore:
+        path:     "/public/bundles/fosckeditor/plugins/wpmore/"
+        filename: "plugin.js"

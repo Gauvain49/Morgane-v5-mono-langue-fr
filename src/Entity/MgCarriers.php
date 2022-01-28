@@ -49,9 +49,20 @@ class MgCarriers
      */
     private $products;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $delay;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MgCarriersConfig::class, mappedBy="carrier", orphanRemoval=true)
+     */
+    private $carriersConfigs;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->carriersConfigs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +154,48 @@ class MgCarriers
             // set the owning side to null (unless already changed)
             if ($product->getCarrier() === $this) {
                 $product->setCarrier(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDelay(): ?string
+    {
+        return $this->delay;
+    }
+
+    public function setDelay(?string $delay): self
+    {
+        $this->delay = $delay;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MgCarriersConfig[]
+     */
+    public function getCarriersConfigs(): Collection
+    {
+        return $this->carriersConfigs;
+    }
+
+    public function addCarriersConfig(MgCarriersConfig $carriersConfig): self
+    {
+        if (!$this->carriersConfigs->contains($carriersConfig)) {
+            $this->carriersConfigs[] = $carriersConfig;
+            $carriersConfig->setCarrier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCarriersConfig(MgCarriersConfig $carriersConfig): self
+    {
+        if ($this->carriersConfigs->removeElement($carriersConfig)) {
+            // set the owning side to null (unless already changed)
+            if ($carriersConfig->getCarrier() === $this) {
+                $carriersConfig->setCarrier(null);
             }
         }
 
